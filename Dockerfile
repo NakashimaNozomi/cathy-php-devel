@@ -1,4 +1,3 @@
-
 FROM docker.io/centos:6.7
 MAINTAINER Nozomi Nakamura<nnakashima@coresoft-net.co.jp>
 
@@ -33,8 +32,8 @@ RUN echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock && \
     yum clean all && \
     sed -i -e "s/enabled *= *1/enabled=0/g" /etc/yum.repos.d/rpmforge.repo && \
     yum -y install libxml2-devel openssl-devel curl-devel libjpeg-devel libpng-devel libXpm-devel freetype-devel readline-devel libtidy-devel libxslt-devel gcc cmake && \
-    yum -y install git vim openssh-server mysql mysql-devel mysql-server httpd httpd-tools httpd-devel tar bzip2 wget && \
-    yum -y install --enablerepo=epel libmcrypt libmcrypt-devel s3cmd tree && \
+    yum -y install git vim openssh-server mysql mysql-devel mysql-server httpd httpd-tools httpd-devel tar bzip2 bzip2-devel libicu-devel wget && \
+    yum -y install --enablerepo=epel libmcrypt libmcrypt-devel s3cmd tree re2c && \
     yum clean all && \
     curl -L https://raw.githubusercontent.com/CHH/phpenv/master/bin/phpenv-install.sh | bash && \
     git clone https://github.com/php-build/php-build $HOME/.phpenv/plugins/php-build && \
@@ -48,9 +47,8 @@ RUN echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock && \
     patch -u $HOME/.phpenv/plugins/php-build/bin/php-build < php-build.patch && \
     rm php-build.patch && \
     echo --with-apxs2=/usr/sbin/apxs >> $HOME/.phpenv/plugins/php-build/share/php-build/default_configure_options && \
-    # 開発環境のphpが 5.2.17　新サバ5.3.3　さくらレンサバ　プレミアム:5.4.45～
-    phpenv install 5.2.17 && \
-    phpenv global 5.2.17  && \
+    phpenv install 5.6.31 && \
+    phpenv global 5.6.31  && \
     phpenv rehash && \
     service mysqld start && \
     /usr/bin/mysqladmin -u root password 'root123' && \
@@ -63,11 +61,11 @@ RUN echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock && \
     sed -i -e 's/#ServerName www.example.com:80/ServerName localhost:80/g' /etc/httpd/conf/httpd.conf && \
     sed -i -e 's/AddType application\/x-pkcs7-crl    .crl/AddType application\/x-pkcs7-crl    .crl\nAddType application\/x-httpd-php .php/g' /etc/httpd/conf/httpd.conf && \
     sed -i -e 's/DirectoryIndex index.html index.html.var/DirectoryIndex index.html index.html.var index.php/g' /etc/httpd/conf/httpd.conf && \
-    ln -s $HOME/.phpenv/versions/5.2.17/libexec/libphp5.so /etc/httpd/modules/
+    # ln -s $HOME/.phpenv/versions/5.2.17/libexec/libphp5.so /etc/httpd/modules/
 
 LABEL name="Nakamura Devel Image" \
     vendor="NakamuraNozomi" \
     license="GPLv2" \
-    build-date="20161125"
+    build-date="20171101"
 
 CMD ["/bin/bash"]
