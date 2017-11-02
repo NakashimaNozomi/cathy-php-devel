@@ -60,7 +60,7 @@ RUN echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock && \
     sed -i -e '317,347s/AllowOverride None/AllowOverride All/g' /etc/httpd/conf/httpd.conf && \
     sed -i -e 's/#ServerName www.example.com:80/ServerName localhost:80/g' /etc/httpd/conf/httpd.conf && \
     sed -i -e 's/AddType application\/x-pkcs7-crl    .crl/AddType application\/x-pkcs7-crl    .crl\nAddType application\/x-httpd-php .php/g' /etc/httpd/conf/httpd.conf && \
-    sed -i -e 's/DirectoryIndex index.html index.html.var/DirectoryIndex index.html index.html.var index.php/g' /etc/httpd/conf/httpd.conf && \
+    sed -i -e 's/DirectoryIndex index.html index.html.var/DirectoryIndex index.html index.html.var index.php/g' /etc/httpd/conf/httpd.conf
     # ln -s $HOME/.phpenv/versions/5.2.17/libexec/libphp5.so /etc/httpd/modules/
 
 LABEL name="Nakamura Devel Image" \
